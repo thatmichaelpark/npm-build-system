@@ -1,0 +1,29 @@
+{
+  "name": "npm-build-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js\\index.js",
+  "scripts": {
+    "test": "echo blah blah",
+    "mkdir": "mkdir build",
+	"build": "npm run clean && npm run mkdir && npm run build:html && npm run build:css && npm run build:js",
+    "watch": "npm run watch:html & npm run watch:css & npm run watch:js",
+    "clean": "rd /s /q build || echo rd hack",
+    "build:html": "npm run clean:html && copy index.html build",
+    "watch:html": "npm run build:html && chokidar index.html -c \"npm run build:html\"",
+    "clean:html": "del build\\index.html || echo del hack",
+    "build:css": "npm run clean:css && lessc --source-map css\\index.less build\\$npm_package_name.$npm_package_version.css",
+    "watch:css": "npm run build:css && chokidar \"css\\**\\*.less\" -c \"npm run build:css\"",
+    "clean:css": "del -f build\\$npm_package_name.$npm_package_version.css build\\$npm_package_name.$npm_package_version.css.map",
+	"build:js": "npm run clean:js && webpack",
+    "watch:js": "npm run build:js && webpack --watch",
+    "clean:js": "del -f build\\$npm_package_name.$npm_package_version.js build\\$npm_package_name.$npm_package_version.js.map"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "less": "^2.6.1",
+    "webpack": "^1.12.14"
+  }
+}
